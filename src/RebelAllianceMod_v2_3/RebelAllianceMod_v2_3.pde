@@ -860,16 +860,24 @@ void key_announce(char c){
 
 // RIT routine  
 void RIT_Read(){
-  int RitReadValueNew =0 ;
+  int RitReadValueNew = 0;
   RitReadValueNew = analogRead(RitReadPin);
-  RitReadValue = (RitReadValueNew + (7 * RitReadValue))/8;//Lowpass filter
+  RitReadValue = (RitReadValueNew + (7 * RitReadValue))/8; // Lowpass filter
 
-  if(RitReadValue < 500) 
-      RitFreqOffset = RitReadValue-500;
-  else if(RitReadValue < 523) 
-      RitFreqOffset = 0;//Deadband in middle of pot
-  else 
-      RitFreqOffset = RitReadValue - 523;
+#define RIT_MAX 1000 // Max RIT excursion in hertz
+#define CENTER_MIN 360 // Bottom of dead zone in RitReadValue (500 is not the center!)
+#define CENTER_MAX 500 // Top of dead zone
+#define TOP_READ_VALUE 1016 // RitReadValue with pot fully CW
+
+  if (RitReadValue < CENTER_MIN) {
+    // RitFreqOffset should be negative
+    RitFreqOffset = (RitReadValue - CENTER_MIN)/float(CENTER_MIN)*RIT_MAX;
+  } else if (RitReadValue < CENTER_MAX) {
+    // Dead zone in middle of pot
+    RitFreqOffset = 0;
+  } else {
+    RitFreqOffset = (RitReadValue - CENTER_MAX)/float(TOP_READ_VALUE - CENTER_MAX)*RIT_MAX;
+  }
 }
 
 // Check Limits
