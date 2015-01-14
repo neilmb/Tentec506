@@ -1246,6 +1246,10 @@ void Terminal_Refresh(int z)
     BatteryReadValue = analogRead(BatteryReadPin)* BatteryVconvert;
     Serial.print(" ");
     Serial.print(BatteryReadValue);
+
+    //debug
+    Serial.println();
+    Serial.print(RitReadValue);
   }
 }
 
