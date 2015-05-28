@@ -1,5 +1,7 @@
 Hello Ten-Tec Rebel model 506 users.
 
+
+
 The code presented here is build together with Paul- KD8FJO and James - K4JK and work is ongoing as we speak. The code uses as base the released Rebel_Base verion from Ten-Tec and we added:
 
 1. (KD8FJO) Added Optional feature selection. 
